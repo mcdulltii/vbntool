@@ -1,4 +1,5 @@
 # vbntool
+[![](https://img.shields.io/badge/Category-Applications%20in%20Python-E5A505?style=flat-square)]() [![](https://img.shields.io/badge/Language-Python-E5A505?style=flat-square)]() [![](https://img.shields.io/badge/Version-1.1-E5A505?style=flat-square&color=green)]()
 
 A tool to extract data and the quarantined file from .vbn files created by Symantec Endpoint Protection.
 
