@@ -14,6 +14,7 @@ parser.add_argument("-v", "--verbose", help="Enable verbose output", action="sto
 parser.add_argument("-l", "--logline", help="Displays metadata from the embedded log line", action="store_true")
 parser.add_argument("-i", "--ignore", help="Extract quarantine file even if hash does not match", action="store_true")
 parser.add_argument("-o", "--output", help="Name to save quarantined file as. Defaults to original name if this flag is provided without a value", const=True, nargs="?")
+parser.add_argument("-a", "--attempt", help="Attempt to xor unquarantined file with `Z` in rare cases", action="store_true")
 args = parser.parse_args()
 
 CHUNK_SIZE = 1024
@@ -92,7 +93,11 @@ if (unpack("<Q", xor([chr(i) for i in vbn[qfm_offset+24:qfm_offset+32]], '0x5A')
         infile.seek(qfm_offset)
         outfile = open(out_name, "wb")
         for piece in read_chunks(infile):
-            outfile.write(xor(piece, '0x5A'))
+            output = xor(piece, '0x5A')
+            # Attempt XOR output with `Z` again in rare cases
+            if (args.attempt == True):
+                output = xor(output, '0x90')
+            outfile.write(output)
     else:
         logger.info("Pass -o/--output to extract the quarantined file")
 
