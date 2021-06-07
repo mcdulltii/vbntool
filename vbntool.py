@@ -95,7 +95,7 @@ if (unpack("<Q", xor([chr(i) for i in vbn[qfm_offset+24:qfm_offset+32]], '0x5A')
         for piece in read_chunks(infile):
             # Check if XOR decryption is enabled
             if (args.disable == True):
-                output = piece
+                output = xor(piece, '0x0')
             else:
                 output = xor(piece, '0x5A')
             outfile.write(output)
